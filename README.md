@@ -33,7 +33,6 @@ Excelファイルの準備と分析を行います。
 ### `/excel-md:merge`
 変換されたMarkdownファイルを統合し、最終的なドキュメントを生成します。
 
-
 ## Workflow
 
 ### Step 1: Excel → Markdown変換
@@ -59,11 +58,24 @@ markitdown your_excel_file.xlsx > your_excel_file.md
 - テーブル構造の整形と品質向上
 
 ### Step 4: ファイル統合
+
+#### Pythonスクリプト版（推奨）
+```bash
+python merge_sheets.py "your_excel_file"
+```
+
+**⚠️ 大きなファイルの統合について**
+
+統合対象のシートファイルが大きい場合、スラッシュコマンド版では「Claude's response exceeded the 32000 output token maximum.」エラーが発生する可能性があります。大量のシートや大きなデータを統合する場合は、**Pythonスクリプト版の使用を推奨**します。
+
+#### スラッシュコマンド版
 ```bash
 /excel-md:merge your_excel_file
 ```
-- 変換されたシートファイルを統合
-- 最終的な読みやすいドキュメント生成
+
+共通機能:
+- 変換されたシートファイル（`*_sheet_*.md`）を統合
+- 最終ドキュメント（`*_reformed.md`）生成
 
 ## Output
 
