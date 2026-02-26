@@ -1,3 +1,8 @@
+---
+description: Excel Markdown 統合処理
+argument-hint: "<basename>"
+---
+
 # Excel Markdown 統合処理
 
 シート別ファイル群を統合し、最終品質検証を実行して完成マークダウンファイルを生成します。
@@ -42,12 +47,28 @@
 
 ### 4. 最終ファイル生成
 
-#### 4.1 ファイル保存
+#### 4.1 Pythonスクリプト版（推奨）
+
+大きなファイルの統合にはPythonスクリプトの使用を推奨します。
+
+```bash
+# プラグインとしてインストールされている場合
+python "${CLAUDE_PLUGIN_ROOT}/scripts/merge_sheets.py" <basename>
+
+# リポジトリを直接クローンして使用している場合
+python scripts/merge_sheets.py <basename>
+```
+
+スラッシュコマンド版では「Claude's response exceeded the 32000 output token maximum.」エラーが発生する可能性があるため、大量のシートや大きなデータを統合する場合はPythonスクリプト版を使用してください。
+
+#### 4.2 手動統合（フォールバック）
+
+Pythonスクリプトが使用できない場合：
 - `{basename}_reformed.md` として最終ファイルを保存
 - UTF-8エンコーディングでの保存
 - 改行コードの統一（LF）
 
-#### 4.2 メタデータ付与
+#### 4.3 メタデータ付与
 統合ファイルの先頭に以下の情報を追加：
 ```markdown
 <!-- Excel Markdown Reformatter で生成 -->

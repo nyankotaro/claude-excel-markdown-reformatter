@@ -1,11 +1,22 @@
 # Excel Markdown Reformatter
 
-Excel方眼紙ファイルをMarkdownに変換し、読みやすい形式に再フォーマットするClaude Codeスラッシュコマンドセット
+Excel方眼紙ファイルをMarkdownに変換し、読みやすい形式に再フォーマットするClaude Codeプラグイン
 
-## Requirements
+## Installation
 
-- markitdownライブラリ（Excelファイルの事前変換用）
-- Claude Code環境
+### Claude Codeプラグインとしてインストール
+
+```bash
+claude plugin add https://github.com/takayama-kotaro/claude-excel-markdown-reformatter
+```
+
+### 前提条件
+
+markitdownライブラリが必要です。
+
+```bash
+pip install markitdown
+```
 
 ## 処理フロー
 
@@ -61,12 +72,10 @@ markitdown your_excel_file.xlsx > your_excel_file.md
 
 #### Pythonスクリプト版（推奨）
 ```bash
-python merge_sheets.py "your_excel_file"
+python "${CLAUDE_PLUGIN_ROOT}/scripts/merge_sheets.py" "your_excel_file"
 ```
 
-**⚠️ 大きなファイルの統合について**
-
-統合対象のシートファイルが大きい場合、スラッシュコマンド版では「Claude's response exceeded the 32000 output token maximum.」エラーが発生する可能性があります。大量のシートや大きなデータを統合する場合は、**Pythonスクリプト版の使用を推奨**します。
+大きなファイルの統合にはPythonスクリプト版を推奨します。スラッシュコマンド版では出力トークン上限エラーが発生する可能性があります。
 
 #### スラッシュコマンド版
 ```bash

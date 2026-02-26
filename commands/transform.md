@@ -1,3 +1,8 @@
+---
+description: Excel Markdown 変換処理
+argument-hint: "<transform_prompt.md>"
+---
+
 # Excel Markdown 変換処理
 
 Task Tool並列実行による大容量シート処理を実行し、シート別改良マークダウンファイルを生成します。
