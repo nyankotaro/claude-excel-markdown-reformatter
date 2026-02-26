@@ -1,3 +1,8 @@
+---
+description: Excel Markdown 準備処理
+argument-hint: "<filename>"
+---
+
 # Excel Markdown 準備処理
 
 markitdownで生成されたExcelマークダウンファイルを解析し、変換用プロンプトを生成します。
