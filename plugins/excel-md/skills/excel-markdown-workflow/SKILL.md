@@ -8,22 +8,42 @@ description: >-
 
 # Excel Markdown Reformatter ワークフロー
 
-markitdownで生成されたExcelマークダウンファイルを、読みやすい形式に再フォーマットする3ステップのパイプラインです。
+markitdownで生成されたExcelマークダウンファイルを、読みやすい形式に再フォーマットするパイプラインです。
 
 ## 前提条件
 
-markitdownライブラリが必要です。
+uv（Pythonパッケージマネージャ）が必要です。markitdownはuvx経由で一時実行されるため、事前インストール不要です。
 
 ```bash
-pip install markitdown
+# uvのインストール（未導入の場合）
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-## ワークフロー
+## 推奨ワークフロー（ワンショット実行）
+
+.xlsxファイルを渡すだけで全工程を自動実行します。
+
+```bash
+# 単一ファイル
+/excel-md:convert your_excel_file.xlsx
+
+# 複数ファイル
+/excel-md:convert file1.xlsx file2.xlsx
+
+# ディレクトリ内の全xlsx
+/excel-md:convert ./data/
+```
+
+markitdown変換 → prepare → transform（並列） → merge の全工程が自動実行され、`{basename}_reformed.md` が生成されます。transform処理ではsheet-transformerサブエージェントにより、最大5シート同時の並列変換が行われます。
+
+## カスタム/デバッグ用ワークフロー（個別ステップ実行）
+
+特定ステップだけ再実行したい場合や、変換パラメータを調整したい場合に使用します。
 
 ### Step 1: Excel → Markdown変換（外部ツール）
 
 ```bash
-markitdown your_excel_file.xlsx > your_excel_file.md
+uvx markitdown your_excel_file.xlsx > your_excel_file.md
 ```
 
 ### Step 2: 準備と分析
@@ -40,7 +60,7 @@ markitdown your_excel_file.xlsx > your_excel_file.md
 /excel-md:transform your_excel_file_transform_prompt.md
 ```
 
-Task Tool並列実行で各シートを個別のマークダウンファイルに変換します（5シートごとのバッチ処理）。
+sheet-transformerサブエージェント並列実行で各シートを個別のマークダウンファイルに変換します（5シートごとのバッチ処理）。
 
 ### Step 4: ファイル統合
 
@@ -75,6 +95,6 @@ python "${CLAUDE_PLUGIN_ROOT}/scripts/merge_sheets.py" "your_excel_file"
 
 ## 処理方式
 
-- 並列処理: 5シートごとの分割バッチ処理（Task Tool使用）
-- 1シート=1Task方式で各シートを独立処理
+- 並列処理: sheet-transformerサブエージェントによる5シートごとの分割バッチ処理
+- 1シート=1サブエージェント方式で各シートを独立処理
 - 見出しレベル制御: シート名は ## レベル（h2）、シート内見出しは ### レベル（h3）以下

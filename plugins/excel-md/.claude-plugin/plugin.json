@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "markitdownで生成されたExcelマークダウンファイルを読みやすい形式に再フォーマットするプラグイン",
   "author": {
-    "name": "takayama-kotaro"
+    "name": "nyank"
   }
 }
