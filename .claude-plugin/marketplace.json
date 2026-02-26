@@ -1,0 +1,14 @@
+{
+  "name": "takayama-kotaro",
+  "description": "Excel方眼紙ファイルをMarkdownに変換・再フォーマットするClaude Codeプラグイン集",
+  "owner": {
+    "name": "takayama-kotaro"
+  },
+  "plugins": [
+    {
+      "name": "excel-md",
+      "source": "./plugins/excel-md",
+      "description": "markitdownで生成されたExcelマークダウンファイルを読みやすい形式に再フォーマットするプラグイン"
+    }
+  ]
+}
